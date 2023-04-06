@@ -4,6 +4,7 @@ import config.Config;
 import model.Role;
 import model.RoleName;
 import model.User;
+import service.role.IRoleService;
 import service.role.RoleNameService;
 
 import java.util.*;
@@ -12,6 +13,8 @@ public class UserService implements IUser {
     public static List<User> users = new ArrayList<>();
 
     List<User> userList = new Config<User>().readFromFile(Config.FILE_USER_PATH);
+    List<User> loginAccount = new Config<User>().readFromFile(Config.FILE_LOGIN_PATH);
+    IRoleService roleService = new RoleNameService();
 
 
     @Override
@@ -110,5 +113,42 @@ public class UserService implements IUser {
         return null;
     }
 
+    @Override
+    public List<User> getLoverList() {
+        List<User> loverList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            Set<Role> roleSet = userList.get(i).getRoles();
+            List<Role> roles = new ArrayList<>(roleSet);
+           if(roles.get(0).getName()==RoleName.LOVER){
+               loverList.add(userList.get(i));
+           }
+        }
+        return loverList;
+    }
 
+    @Override
+    public List<User> findTopFiveLover() {
+        int maxRentalTime = getLoverList().get(0).getRentCount();
+        List<User> topFiveLoverList = new ArrayList<>();
+        for (int i = 0; i < getLoverList().size(); i++) {
+            if(getLoverList().get(i).getRentCount()>maxRentalTime){
+                maxRentalTime = getLoverList().get(i).getRentCount();
+                topFiveLoverList.add(getLoverList().get(i));
+            }
+        }
+        return topFiveLoverList;
+    }
+
+    @Override
+    public boolean checkSelectedUser(int choice) {
+            User pickedLover = findById(choice);
+            for (int i = 0; i < pickedLover.getUserList().size(); i++) {
+                if (pickedLover.getUserList().get(i).getId() == loginAccount.get(0).getId()) {
+                    return false;
+                }
+            }
+            return true;
+    }
 }
+
+

@@ -57,18 +57,18 @@ public class ProfileView {
 //                    case 1:
 //                        new UserView().register();
 //                        break;
-//                    case 2:
-//                        new UserView().formLogin();
-//                        break;
-                    case 5:
+                    case 2:
+                        new UserView().showLoverList();
+                        break;
+                    case 4:
                         new UserView().logOut();
                         break;
-                    case 6:
+                    case 5:
                         System.exit(0);}
             } else {
                 System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧MENU FOR LOVER✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
                 System.out.printf("|" + "  1. %-76s" + "|\n", "Change Profile");
-                System.out.printf("|" + "  2. %-76s" + "|\n", "Show Rent List");
+                System.out.printf("|" + "  2. %-76s" + "|\n", "Show Rental List");
                 System.out.printf("|" + "  3. %-76s" + "|\n", "Show Comment");
                 System.out.printf("|" + "  4. %-76s" + "|\n", "Log out");
                 System.out.printf("|" + "  5. %-76s" + "|\n", "Exit");

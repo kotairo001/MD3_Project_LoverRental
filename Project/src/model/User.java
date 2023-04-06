@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class User implements Serializable {
+public class User implements IGeneric, Serializable {
     private int id;
     private String email;
     private String userName;
@@ -14,7 +14,7 @@ public class User implements Serializable {
     private String password;
     private List<Comment> comment;
     private int rentCount;
-    private float rentPrice;
+    private double rentPrice;
     private boolean rentStatus;
     private boolean accountStatus;
     private boolean activeStatus;
@@ -35,7 +35,7 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public User(int id, String userName, String name, String email, String password, Set<Role> roles) {
+    public User(int id, String email, String userName, String name, String password, Set<Role> roles) {
         this.id = id;
         this.email = email;
         this.userName = userName;
@@ -47,7 +47,7 @@ public class User implements Serializable {
         this.userList = new ArrayList<>();
     }
 
-    public User(int id, String email,String userName, String name, String password, float rentPrice, Set<Role> roleSet) {
+    public User(int id, String email, String userName, String name, String password, double rentPrice, Set<Role> roleSet) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -119,7 +119,7 @@ public class User implements Serializable {
         this.rentCount = rentCount;
     }
 
-    public float getRentPrice() {
+    public double getRentPrice() {
         return rentPrice;
     }
 
@@ -151,6 +151,14 @@ public class User implements Serializable {
         this.activeStatus = activeStatus;
     }
 
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -176,5 +184,38 @@ public class User implements Serializable {
                 ", roles=" + roles +
                 ", userList=" + userList +
                 '}';
+    }
+
+    @Override
+    public void displayData() {
+        Set<Role> roleSet = getRoles();
+        List<Role> roleList = new ArrayList<>(roleSet);
+        RoleName roleName = roleList.get(0).getName();
+        if (roleName == RoleName.LOVER) {
+            System.out.println("No." + id + "\n" +
+                    "Name: " + name + '\n' +
+                    "Comment: " + comment + '\n' +
+                    "Rental Count: " + rentCount + '\n' +
+                    "Rental Price: " + rentPrice + '\n' +
+                    "Rental Status: " + (rentStatus == false ? "Available" : "Already rented") + '\n' +
+                    "Role: " + roles + '\n' +
+                    "User List: " + (userList.size() == 0 ? "N/A" : getNameInTheList()) + '\n' +
+                    "-------------------------------------------------------"+ '\n');
+        } else {
+            System.out.println("No." + id + "\n" +
+                    "Name: " + name + '\n' +
+                    "Role: " + roles + '\n' +
+                    "Lover List: " + (userList.size() == 0 ? "N/A" : getNameInTheList()) + '\n' +
+                    "-------------------------------------------------------"+ '\n');
+        }
+    }
+
+    @Override
+    public List<String> getNameInTheList() {
+        List<String> userName = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            userName.add(userList.get(i).getName());
+        }
+        return userName;
     }
 }

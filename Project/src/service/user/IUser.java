@@ -12,5 +12,8 @@ public interface IUser extends IGenericService<User> {
     void updateLoginAccount(List<User> user);
     boolean checkLogin(String userName, String password);
     User getCurrentUser();
+    List<User> getLoverList();
+    List<User> findTopFiveLover();
+    boolean checkSelectedUser(int choice);
 
 }

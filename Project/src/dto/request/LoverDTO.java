@@ -16,7 +16,7 @@ public class LoverDTO {
     private String password;
     private List<Comment> comment;
     private int rentCount;
-    private float rentPrice;
+    private double rentPrice;
     private boolean rentStatus;
     private boolean accountStatus;
     private boolean activeStatus;
@@ -26,7 +26,7 @@ public class LoverDTO {
     public LoverDTO() {
     }
 
-    public LoverDTO(int id, String email, String userName, String name, String password, float rentPrice, Set<String> strRole) {
+    public LoverDTO(int id, String email, String userName, String name, String password, double rentPrice, Set<String> strRole) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -99,7 +99,7 @@ public class LoverDTO {
         this.rentCount = rentCount;
     }
 
-    public float getRentPrice() {
+    public double getRentPrice() {
         return rentPrice;
     }
 

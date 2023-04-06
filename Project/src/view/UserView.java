@@ -8,6 +8,7 @@ import dto.request.UserDTO;
 import dto.respond.RespondMessage;
 import model.User;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,27 +31,27 @@ public class UserView {
                 boolean flag = true;
                 System.out.println("Input your email: ");
                 email = Config.scanner().nextLine();
-                if (!Config.validateInput(Config.VALIDATE_EMAIL, email)&&email==null) {
+                if (!Config.validateInput(Config.VALIDATE_EMAIL, email) || email.equals("")) {
                     System.err.println("Invalid Email");
                 } else {
                     break;
                 }
             }
             String userName;
-            while (true){
+            while (true) {
                 System.out.println("Username: ");
                 userName = Config.scanner().nextLine();
-                if(userName==null){
+                if (userName.equals("")) {
                     System.err.println("Invalid user name");
                 } else {
                     break;
                 }
             }
             String name;
-            while (true){
+            while (true) {
                 System.out.println("Name: ");
                 name = Config.scanner().nextLine();
-                if(name==null){
+                if (name.equals("")) {
                     System.err.println("Invalid user name");
                 } else {
                     break;
@@ -60,7 +61,7 @@ public class UserView {
             while (true) {
                 System.out.println("Password: ");
                 password = Config.scanner().nextLine();
-                if (!Config.validateInput(Config.VALIDATE_PASSWORD, password)&&password==null) {
+                if (!Config.validateInput(Config.VALIDATE_PASSWORD, password) || password.equals("")) {
                     System.err.println("Invalid Password");
                 } else {
                     break;
@@ -69,7 +70,7 @@ public class UserView {
             while (true) {
                 System.out.println("Confirm Password: ");
                 String cfPassword = Config.scanner().nextLine();
-                if (!cfPassword.equals(password)&&cfPassword==null) {
+                if (!cfPassword.equals(password) || cfPassword.equals("")) {
                     System.err.println("Wrong Password");
                 } else {
                     break;
@@ -113,7 +114,9 @@ public class UserView {
             }
 
             List<User> readAccount = new Config<User>().readFromFile(Config.FILE_USER_PATH);
-            System.out.println(readAccount);
+            for (int i = 0; i < readAccount.size(); i++) {
+                readAccount.get(i).displayData();
+            }
             System.out.println("Enter 'Back' to comeback Menu");
             String backMenu = Config.scanner().nextLine();
             if (backMenu.equalsIgnoreCase("back")) {
@@ -142,10 +145,11 @@ public class UserView {
             }
         }
     }
-    public void logOut(){
+
+    public void logOut() {
         System.out.println("Do you want to log out? (Y/N)");
         String confirmMessage = Config.scanner().nextLine();
-        if(confirmMessage.equalsIgnoreCase("y")){
+        if (confirmMessage.equalsIgnoreCase("y")) {
             userLogin.remove(0);
             new Config<User>().writeToFile(Config.FILE_LOGIN_PATH, userLogin);
             new NavBar();
@@ -153,4 +157,53 @@ public class UserView {
             new ProfileView();
         }
     }
+
+    public void showLoverList() {
+        List<User> loverList = userController.getLoverList();
+        System.out.println("------------------AVAILABLE LOVER LIST------------------");
+        for (int i = 0; i < loverList.size(); i++) {
+            if (loverList.get(i).isRentStatus() == false) {
+                loverList.get(i).displayData();
+            }
+        }
+        pickLover();
+    }
+
+    public void pickLover() {
+        List<User> loverList = userController.getLoverList();
+        System.out.println("Do you want to pick a lover? Y/N");
+        String answer = Config.scanner().nextLine();
+        boolean flag = false;
+        if (answer.equalsIgnoreCase("y")) {
+            System.out.println("Input the number of lover you like: ");
+            int choice = Config.scanner().nextInt();
+            List<User> pickedUser;
+            for (int i = 0; i < loverList.size(); i++) {
+                if (loverList.get(i).getId() == choice) {
+                    RespondMessage respondMessage = userController.checkSelectedUser(choice);
+                    if (respondMessage.equals("available")) {
+                        pickedUser = loverList.get(i).getUserList();
+                        pickedUser.add(userLogin.get(0));
+                        loverList.get(i).setUserList(pickedUser);
+                        loverList.get(i).setRentCount(loverList.get(i).getRentCount() + 1);
+                        userController.updateUser(loverList.get(i));
+                        new ProfileView();
+                        flag = true;
+                    }
+                    if (respondMessage.equals("existed_account")) {
+                        System.err.println("Your already pick " + loverList.get(i).getName() + " as Lover. Please wait for respond");
+                        new ProfileView();
+                    }
+                }
+            }
+            if (!flag) {
+                System.err.println("Invalid Input. Please input again");
+                new ProfileView();
+            }
+        } else {
+            new ProfileView();
+        }
+    }
+
+
 }

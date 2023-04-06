@@ -77,9 +77,23 @@ public class UserController {
     }
 
 
-
     public List<User> getUserList() {
         return userService.findAll();
+    }
+    public User findById(int id) {
+        return userService.findById(id);
+    }
+
+    public RespondMessage checkSelectedUser(int choice){
+        if(userService.checkSelectedUser(choice)){
+            return new RespondMessage("existed_account");
+        } else {
+            return new RespondMessage("available");
+        }
+    }
+
+    public List<User> findTopFiveLover () {
+        return userService.findTopFiveLover();
     }
 
 
@@ -97,6 +111,10 @@ public class UserController {
 
     public void updateLogin(List<User> user) {
         userService.updateLoginAccount(user);
+    }
+
+    public List<User> getLoverList() {
+        return userService.getLoverList();
     }
 
 }

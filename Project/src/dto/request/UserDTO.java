@@ -104,4 +104,5 @@ public class UserDTO {
     public void setUserList(List<User> loverList) {
         this.loverList = loverList;
     }
+
 }

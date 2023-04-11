@@ -11,12 +11,13 @@ import java.util.regex.Pattern;
 public class Config<T> {
     public static final String WHITE_BRIGHT = "\033[0;97m";  // WHITE
     public static final String RESET = "\033[0m";  // Text Reset
-    public static final String FILE_PRODUCT_PATH = "Project/src/database/product.txt";
     public static final String FILE_USER_PATH = "Project/src/database/user.txt";
     public static final String FILE_LOGIN_PATH = "Project/src/database/loginAccount.txt";
     public static final String FILE_LOVER_PATH = "Project/src/database/lover.txt";
     public static final String VALIDATE_EMAIL = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$";
     public static final String VALIDATE_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+    public static final String FORMAT_ALERT = "Wrong format";
+    public static final String EMPTY_ALERT = "Empty Space";
 
     public static Scanner scanner() {
         Scanner scanner = new Scanner(System.in);
@@ -83,8 +84,38 @@ public class Config<T> {
         }
     }
 
-    public void deleteFile(String filePath) {
-        File file = new File(filePath);
-        file.delete();
+    public static int validateInt() {
+        int data = 0;
+        while (true) {
+            try {
+                data = Integer.parseInt(scanner().nextLine());
+                return data;
+            } catch (Exception e) {
+                System.err.println(FORMAT_ALERT);
+            }
+        }
+    }
+
+    public static double validateDouble() {
+        double data = 0;
+        while (true) {
+            try {
+                data = Double.parseDouble(scanner().nextLine());
+                return data;
+            } catch (Exception e) {
+                System.err.println(FORMAT_ALERT);
+            }
+        }
+    }
+
+    public static String validateString() {
+        while (true) {
+            String result = scanner().nextLine();
+            if (result.equals("")) {
+                System.err.println(EMPTY_ALERT);
+                continue;
+            }
+            return result;
+        }
     }
 }

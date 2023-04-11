@@ -54,6 +54,7 @@ public class UserService implements IUser {
                 userList.remove(i);
             }
         }
+        new Config<User>().writeToFile(Config.FILE_USER_PATH, userList);
     }
 
     @Override
@@ -76,20 +77,6 @@ public class UserService implements IUser {
         return false;
     }
 
-    @Override
-    public boolean checkRightPassword(String password) {
-        for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void updateLoginAccount(List<User> user) {
-        new Config<User>().writeToFile(Config.FILE_LOGIN_PATH, user);
-    }
 
     @Override
     public boolean checkLogin(String userName, String password) {
@@ -100,6 +87,18 @@ public class UserService implements IUser {
                 userLogin.add(userList.get(i));
                 new Config<User>().writeToFile(Config.FILE_LOGIN_PATH, userLogin);
                 return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkAccountActiveStatus(String userName, String password) {
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getUserName().equals(userName) && userList.get(i).getPassword().equals(password)) {
+                if (userList.get(i).isActiveStatus() == true) {
+                    return true;
+                }
             }
         }
         return false;
@@ -119,35 +118,42 @@ public class UserService implements IUser {
         for (int i = 0; i < userList.size(); i++) {
             Set<Role> roleSet = userList.get(i).getRoles();
             List<Role> roles = new ArrayList<>(roleSet);
-           if(roles.get(0).getName()==RoleName.LOVER){
-               loverList.add(userList.get(i));
-           }
+            if (roles.get(0).getName() == RoleName.LOVER) {
+                loverList.add(userList.get(i));
+            }
         }
         return loverList;
     }
 
     @Override
     public List<User> findTopFiveLover() {
-        int maxRentalTime = getLoverList().get(0).getRentCount();
-        List<User> topFiveLoverList = new ArrayList<>();
-        for (int i = 0; i < getLoverList().size(); i++) {
-            if(getLoverList().get(i).getRentCount()>maxRentalTime){
-                maxRentalTime = getLoverList().get(i).getRentCount();
-                topFiveLoverList.add(getLoverList().get(i));
+        List<User> topFiveLover = new ArrayList<>(getLoverList());
+        for (int i = 0; i < topFiveLover.size() - 1; i++) {
+            User currentMinValue = topFiveLover.get(i);
+            int currentMinIndex = i;
+            for (int j = i + 1; j < topFiveLover.size(); j++) {
+                if (currentMinValue.getRentCount() > topFiveLover.get(j).getRentCount()) {
+                    currentMinValue = topFiveLover.get(j);
+                    currentMinIndex = j;
+                }
+            }
+            if (currentMinIndex != i) {
+                topFiveLover.set(currentMinIndex, topFiveLover.get(i));
+                topFiveLover.set(i, currentMinValue);
             }
         }
-        return topFiveLoverList;
+        return topFiveLover;
     }
 
     @Override
     public boolean checkSelectedUser(int choice) {
-            User pickedLover = findById(choice);
-            for (int i = 0; i < pickedLover.getUserList().size(); i++) {
-                if (pickedLover.getUserList().get(i).getId() == loginAccount.get(0).getId()) {
-                    return false;
-                }
+        User pickedLover = findById(choice);
+        for (int i = 0; i < pickedLover.getUserList().size(); i++) {
+            if (pickedLover.getUserList().get(i).getId() == loginAccount.get(0).getId()) {
+                return false;
             }
-            return true;
+        }
+        return true;
     }
 }
 

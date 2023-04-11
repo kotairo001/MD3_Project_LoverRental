@@ -123,7 +123,7 @@ public class User implements IGeneric, Serializable {
         return rentPrice;
     }
 
-    public void setRentPrice(float rentPrice) {
+    public void setRentPrice(double rentPrice) {
         this.rentPrice = rentPrice;
     }
 
@@ -194,28 +194,36 @@ public class User implements IGeneric, Serializable {
         if (roleName == RoleName.LOVER) {
             System.out.println("No." + id + "\n" +
                     "Name: " + name + '\n' +
-                    "Comment: " + comment + '\n' +
+                    "Comment: " + (comment== null||comment.size()==0 ? "N/A" : comment) + '\n' +
                     "Rental Count: " + rentCount + '\n' +
-                    "Rental Price: " + rentPrice + '\n' +
+                    "Rental Price: " + (int) rentPrice + '\n' +
                     "Rental Status: " + (rentStatus == false ? "Available" : "Already rented") + '\n' +
                     "Role: " + roles + '\n' +
-                    "User List: " + (userList.size() == 0 ? "N/A" : getNameInTheList()) + '\n' +
-                    "-------------------------------------------------------"+ '\n');
+                    "User List: " + (userList == null||userList.size()==0 ? "N/A" : getNameInTheList()) + '\n' +
+                    "Status: " + (isActiveStatus() == false ? "Inactive" : "Active") + "\n" +
+                    "-------------------------------------------------------" + '\n');
+        } else if (roleName == RoleName.ADMIN) {
+            System.out.println("No." + id + "\n" +
+                    "Name: " + name + '\n' +
+                    "Role: " + roles + '\n' +
+                    "-------------------------------------------------------" + '\n');
         } else {
             System.out.println("No." + id + "\n" +
                     "Name: " + name + '\n' +
                     "Role: " + roles + '\n' +
-                    "Lover List: " + (userList.size() == 0 ? "N/A" : getNameInTheList()) + '\n' +
-                    "-------------------------------------------------------"+ '\n');
+                    "Lover List: " + (userList == null ||userList.size()==0? "N/A" : getNameInTheList()) + '\n' +
+                    "Status: " + (isActiveStatus() == false ? "Inactive" : "Active") + "\n" +
+                    "-------------------------------------------------------" + '\n');
         }
     }
 
-    @Override
     public List<String> getNameInTheList() {
         List<String> userName = new ArrayList<>();
-        for (int i = 0; i < userList.size(); i++) {
-            userName.add(userList.get(i).getName());
+        for (int i = 0; i < getUserList().size(); i++) {
+            userName.add(getUserList().get(i).getName());
         }
         return userName;
     }
+
+
 }

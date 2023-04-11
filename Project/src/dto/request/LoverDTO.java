@@ -103,7 +103,7 @@ public class LoverDTO {
         return rentPrice;
     }
 
-    public void setRentPrice(float rentPrice) {
+    public void setRentPrice(double rentPrice) {
         this.rentPrice = rentPrice;
     }
 

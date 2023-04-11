@@ -1,6 +1,10 @@
 package model;
 
-public class Comment {
+import config.Color;
+
+import java.io.Serializable;
+
+public class Comment implements IGeneric, Serializable {
     private String comment;
     private User user;
 
@@ -28,11 +32,14 @@ public class Comment {
         this.user = user;
     }
 
+
     @Override
     public String toString() {
-        return "Comment{" +
-                "comment='" + comment + '\'' +
-                ", user=" + user +
-                '}';
+        return "Content: " + comment + ", From: " + user.getName();
+    }
+
+    @Override
+    public void displayData() {
+        System.out.println(Color.YELLOW_BOLD_BRIGHT + "From: " + getUser().getName() + "\n" + "Comment's Content: " + getComment() + Color.RESET);
     }
 }

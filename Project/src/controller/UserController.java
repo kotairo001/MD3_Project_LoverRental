@@ -71,6 +71,13 @@ public class UserController {
         return new RespondMessage("login_success");
     }
 
+    public RespondMessage checkActiveAccount(LoginDTO loginDTO){
+        if(userService.checkAccountActiveStatus(loginDTO.getUserName(), loginDTO.getPassword())){
+            return new RespondMessage("active_account");
+        }
+        return new RespondMessage("inactive_account");
+    }
+
     public User getCurrentLoginUser() {
         return userService.getCurrentUser();
 
@@ -85,7 +92,7 @@ public class UserController {
     }
 
     public RespondMessage checkSelectedUser(int choice){
-        if(userService.checkSelectedUser(choice)){
+        if(userService.checkSelectedUser(choice)==false){
             return new RespondMessage("existed_account");
         } else {
             return new RespondMessage("available");
@@ -96,21 +103,15 @@ public class UserController {
         return userService.findTopFiveLover();
     }
 
-
-    public void createUser(User registerAccount) {
+    public void updateUser(User registerAccount) {
         userService.save(registerAccount);
     }
-
-    public void updateUser(User registerAccount) {
+    public void createUser(User registerAccount) {
         userService.save(registerAccount);
     }
 
     public void deleteUser(int id) {
         userService.delete(id);
-    }
-
-    public void updateLogin(List<User> user) {
-        userService.updateLoginAccount(user);
     }
 
     public List<User> getLoverList() {

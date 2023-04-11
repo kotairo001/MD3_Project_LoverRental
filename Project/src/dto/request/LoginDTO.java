@@ -3,7 +3,7 @@ package dto.request;
 public class LoginDTO {
     private String userName;
     private String password;
-    private boolean accountStatus;
+    private boolean activeStatus;
 
     public LoginDTO() {
     }
@@ -11,7 +11,7 @@ public class LoginDTO {
     public LoginDTO(String userName, String password) {
         this.userName = userName;
         this.password = password;
-        this.accountStatus=true;
+        this.activeStatus=true;
     }
 
     public String getUserName() {
@@ -30,12 +30,12 @@ public class LoginDTO {
         this.password = password;
     }
 
-    public boolean isAccountStatus() {
-        return accountStatus;
+    public boolean isActiveStatus() {
+        return activeStatus;
     }
 
-    public void setAccountStatus(boolean accountStatus) {
-        this.accountStatus = accountStatus;
+    public void setActiveStatus(boolean activeStatus) {
+        this.activeStatus = activeStatus;
     }
 
     @Override

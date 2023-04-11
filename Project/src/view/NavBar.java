@@ -1,5 +1,6 @@
 package view;
 
+import config.Color;
 import config.Config;
 import controller.UserController;
 import model.Role;
@@ -13,15 +14,17 @@ import java.util.List;
 import java.util.Set;
 
 public class NavBar {
-        UserController userController = new UserController();
+    UserController userController = new UserController();
+
+
     public NavBar() {
         User user = userController.getCurrentLoginUser();
-        if (user==null) {
-        System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧LOVER RENTAL✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
+        if (user == null) {
+            System.out.println(Color.PURPLE_BOLD_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧LOVER RENTAL✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
             System.out.printf("|" + "  1. %-76s" + "|\n", "Register");
             System.out.printf("|" + "  2. %-76s" + "|\n", "Login");
             System.out.printf("|" + "  3. %-76s" + "|\n", "Exit");
-            System.out.println("✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧" + Config.RESET);
+            System.out.println("✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧" + Color.RESET);
             System.out.println("Input your choice");
             int choice = Config.scanner().nextInt();
             switch (choice) {
@@ -37,10 +40,31 @@ public class NavBar {
         } else {
             Set<Role> roles = user.getRoles();
             List<Role> roleList = new ArrayList<>(roles);
-            System.err.printf("Welcome " + user.getName() + " as " + roleList.get(0).getName() +"\n");
-            new ProfileView();
+            try {
+                for (int i = 3; i > 0; i--) {
+                    System.out.println(Color.BLUE_BOLD + "Waiting for " + i + " second" + Color.RESET);
+                    Thread.sleep(1000);
+                }
+                System.err.printf(Color.PURPLE_BOLD_BRIGHT + "Welcome " + user.getName() + " as " + roleList.get(0).getName() + "\n" + Color.RESET);
+                if (roleList.get(0).getName() == RoleName.USER) {
+                    if (user.getUserList() == null || user.getUserList().size() == 0) {
+                        System.out.println("");
+                    } else {
+                        System.err.printf(Color.CYAN_BOLD_BRIGHT + "You have been matched with " + user.getUserList().get(0).getName() + "\n" + Color.RESET);
+                    }
+                } else if (roleList.get(0).getName() == RoleName.LOVER) {
+                    if (user.getUserList() == null || user.getUserList().size() == 0) {
+                        System.out.println("");
+                    } else {
+                        System.err.printf(Color.CYAN_BOLD_BRIGHT + "You have been chosen by " + user.getUserList().size() + " person(s). Please check rental list." + "\n" + Color.RESET);
+                    }
+                }
+                new ProfileView();
+            } catch (InterruptedException i) {
+                i.printStackTrace();
             }
         }
+    }
 
     public static void main(String[] args) {
         new NavBar();

@@ -112,7 +112,7 @@ public class AdminView {
         System.out.println("Input the number of account you want to inactivate");
         int choice = Config.validateInt();
         if (choice == 1) {
-            System.out.println("You can't inactivate admin account");
+            System.err.println("You can't inactivate admin account");
         } else {
             System.out.println(Color.RED + "Do you want to inactivate the account with ID " + choice + "? (Y/N)");
             String answer = Config.validateString();

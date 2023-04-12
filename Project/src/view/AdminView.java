@@ -61,21 +61,7 @@ public class AdminView {
                     }
                 }
             }
-            for (int i = 0; i < listUser.size(); i++) {
-                if (listUser.get(i).getUserList() != null) {
-                    List<User> loverList = listUser.get(i).getUserList();
-                    for (int j = 0; j < loverList.size(); j++) {
-                        for (int k = 0; k < listForDelete.size(); k++) {
-                            if (loverList.get(j).getId() == listForDelete.get(k).getId()) {
-                                loverList.remove(j);
-                                System.out.println(listUser.get(i).getUserList());
-                                userController.updateUser(listUser.get(i));
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            deleteNoMoreNeedUser(listForDelete);
 //            System.out.println(listForDelete);
             System.out.println("Enter 'Back' to comeback Menu");
             String backMenu = Config.scanner().nextLine();
@@ -126,7 +112,7 @@ public class AdminView {
         boolean flag = false;
         System.out.println("Input the number of account you want to inactivate");
         int choice = Config.validateInt();
-        if(choice==1){
+        if (choice == 1) {
             System.out.println("You can't inactivate admin account");
         } else {
             System.out.println(Color.RED + "Do you want to inactivate the account with ID " + choice + "? (Y/N)");
@@ -171,21 +157,7 @@ public class AdminView {
                 for (int i = 0; i < listUser.size(); i++) {
                     if (listUser.get(i).getId() == choice) {
                         listForDelete.add(listUser.get(i));
-                        for (int l = 0; l < listUser.size(); l++) {
-                            if (listUser.get(l).getUserList() != null) {
-                                List<User> loverList = listUser.get(l).getUserList();
-                                for (int j = 0; j < loverList.size(); j++) {
-                                    for (int k = 0; k < listForDelete.size(); k++) {
-                                        if (loverList.get(j).getId() == listForDelete.get(k).getId()) {
-                                            loverList.remove(j);
-                                            System.out.println(listUser.get(l).getUserList());
-                                            userController.updateUser(listUser.get(l));
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        deleteNoMoreNeedUser(listForDelete);
                         userController.deleteUser(listUser.get(i).getId());
                         System.out.println(Color.BLUE_BRIGHT + "Delete success" + Color.RESET);
                         flag = true;
@@ -199,6 +171,23 @@ public class AdminView {
                 }
             } else {
                 new ProfileView();
+            }
+        }
+    }
+
+    public void deleteNoMoreNeedUser(List<User> listForDelete) {
+        for (int i = 0; i < listUser.size(); i++) {
+            if (listUser.get(i).getUserList() != null) {
+                List<User> loverList = listUser.get(i).getUserList();
+                for (int j = 0; j < loverList.size(); j++) {
+                    for (int k = 0; k < listForDelete.size(); k++) {
+                        if (loverList.get(j).getId() == listForDelete.get(k).getId()) {
+                            loverList.remove(j);
+                            userController.updateUser(listUser.get(i));
+                            break;
+                        }
+                    }
+                }
             }
         }
     }

@@ -239,8 +239,8 @@ public class UserView {
                         }
                     }
                 }
-                oldUser = new User(oldUser.getId(), oldUser.getEmail(), oldUser.getUserName(), oldUser.getName(),
-                        oldUser.getPassword(), oldUser.isActiveStatus(), oldUser.getRoles());
+//                oldUser = new User(oldUser.getId(), oldUser.getEmail(), oldUser.getUserName(), oldUser.getName(),
+//                        oldUser.getPassword(), oldUser.isActiveStatus(), oldUser.getRoles());
                 newLoginUser.add(oldUser);
                 new Config<User>().writeToFile(Config.FILE_LOGIN_PATH, newLoginUser);
 //                List<User> readAccount = new Config<User>().readFromFile(Config.FILE_USER_PATH);

@@ -15,9 +15,8 @@ import java.util.Set;
 
 public class LoverView {
     UserController userController = new UserController();
-    List<User> userList = userController.getUserList();
+    List<User> listUser = userController.getUserList();
     User userLogin = userController.getCurrentLoginUser();
-    List<User> loverList = userController.getLoverList();
 
     public void changeProfile() {
         List<User> newLoginUser = new ArrayList<>();
@@ -82,7 +81,7 @@ public class LoverView {
                         }
                     }
                 }
-                oldUser = new User(oldUser.getId(), oldUser.getEmail(), oldUser.getUserName(), oldUser.getName(), oldUser.getPassword(), oldUser.getRentPrice(), oldUser.getRoles());
+//                oldUser = new User(oldUser.getId(), oldUser.getEmail(), oldUser.getUserName(), oldUser.getName(), oldUser.getPassword(), oldUser.getRentPrice(), oldUser.getRoles());
                 userController.updateUser(oldUser);
                 newLoginUser.add(oldUser);
                 new Config<User>().writeToFile(Config.FILE_LOGIN_PATH, newLoginUser);
@@ -128,13 +127,13 @@ public class LoverView {
 
     public void showComment() {
         List<Comment> commentList = userLogin.getComment();
-//        System.out.println(userLogin.getComment());
+//        System.out.println(commentList);
         if (commentList == null || commentList.size() == 0) {
             System.out.println(Color.CYAN_BOLD + "There no comment for you. Please comeback again." + Color.RESET);
         } else {
             for (int i = 0; i < commentList.size(); i++) {
+//                System.out.println(commentList.get(i));
                 commentList.get(i).displayData();
-                new ProfileView();
             }
         }
         System.out.println("Enter 'Back' to comeback Menu");
@@ -159,6 +158,7 @@ public class LoverView {
                 System.out.println("Input the number of user you want to match:");
                 int number = Config.validateInt();
                 List<User> matchedLover = new ArrayList<>();
+                List<User> forDeleteList = new ArrayList<>();
                 boolean flag = false;
                 for (int i = 0; i < rentalUserList.size(); i++) {
                     if (number == rentalUserList.get(i).getId()) {
@@ -166,6 +166,8 @@ public class LoverView {
                         matchedLover.add(userLogin);
                         rentalUserList.get(i).setUserList(matchedLover);
                         userController.updateUser(rentalUserList.get(i));
+                        forDeleteList.add(rentalUserList.get(i));
+                        deleteNoMoreNeedUser(forDeleteList);
                         rentalUserList.remove(rentalUserList.get(i));
                         userLogin.setRentStatus(true);
                         userController.updateUser(userLogin);
@@ -190,6 +192,23 @@ public class LoverView {
             String backMenu = Config.scanner().nextLine();
             if (backMenu.equalsIgnoreCase("back")) {
                 new ProfileView();
+            }
+        }
+    }
+    public void deleteNoMoreNeedUser(List<User> listForDelete){
+        for (int i = 0; i < listUser.size(); i++) {
+            if (listUser.get(i).getUserList() != null) {
+                List<User> loverList = listUser.get(i).getUserList();
+                for (int j = 0; j < loverList.size(); j++) {
+                    for (int k = 0; k < listForDelete.size(); k++) {
+                        if (loverList.get(j).getId() == listForDelete.get(k).getId()) {
+                            loverList.remove(j);
+//                            System.out.println(listUser.get(i).getUserList());
+                            userController.updateUser(listUser.get(i));
+                            break;
+                        }
+                    }
+                }
             }
         }
     }

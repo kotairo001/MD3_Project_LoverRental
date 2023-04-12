@@ -81,7 +81,6 @@ public class LoverView {
                         }
                     }
                 }
-//                oldUser = new User(oldUser.getId(), oldUser.getEmail(), oldUser.getUserName(), oldUser.getName(), oldUser.getPassword(), oldUser.getRentPrice(), oldUser.getRoles());
                 userController.updateUser(oldUser);
                 newLoginUser.add(oldUser);
                 new Config<User>().writeToFile(Config.FILE_LOGIN_PATH, newLoginUser);
@@ -127,12 +126,10 @@ public class LoverView {
 
     public void showComment() {
         List<Comment> commentList = userLogin.getComment();
-//        System.out.println(commentList);
         if (commentList == null || commentList.size() == 0) {
             System.out.println(Color.CYAN_BOLD + "There no comment for you. Please comeback again." + Color.RESET);
         } else {
             for (int i = 0; i < commentList.size(); i++) {
-//                System.out.println(commentList.get(i));
                 commentList.get(i).displayData();
             }
         }
@@ -203,7 +200,6 @@ public class LoverView {
                     for (int k = 0; k < listForDelete.size(); k++) {
                         if (loverList.get(j).getId() == listForDelete.get(k).getId()) {
                             loverList.remove(j);
-//                            System.out.println(listUser.get(i).getUserList());
                             userController.updateUser(listUser.get(i));
                             break;
                         }

@@ -62,7 +62,6 @@ public class AdminView {
                 }
             }
             deleteNoMoreNeedUser(listForDelete);
-//            System.out.println(listForDelete);
             System.out.println("Enter 'Back' to comeback Menu");
             String backMenu = Config.scanner().nextLine();
             if (backMenu.equalsIgnoreCase("back")) {

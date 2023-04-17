@@ -13,6 +13,15 @@ import java.util.List;
 import java.util.Set;
 
 public class AdminView {
+    public static AdminView adminViewInstance;
+
+    public static AdminView getAdminViewInstance() {
+        if (adminViewInstance == null) {
+            adminViewInstance = new AdminView();
+        }
+        return adminViewInstance;
+    }
+
     UserController userController = new UserController();
     List<User> listUser = userController.getUserList();
 
@@ -36,32 +45,37 @@ public class AdminView {
             System.out.println("Input the number of account you want to change role");
             int choice = Config.validateInt();
             List<User> listForDelete = new ArrayList<>();
-            for (int i = 0; i < listUser.size(); i++) {
-                if (listUser.get(i).getId() == choice) {
-                    System.out.println("What's role you want to change for this account?");
-                    String answer = Config.validateString();
-                    Set<Role> roleSet = listUser.get(i).getRoles();
-                    List<Role> roleList = new ArrayList<>(roleSet);
-                    if (answer.equalsIgnoreCase("lover")) {
-                        roleList.get(0).setName(RoleName.LOVER);
-                        User newLover = listUser.get(i);
-                        newLover = new User(newLover.getId(), newLover.getEmail(), newLover.getUserName(),
-                                newLover.getName(), newLover.getPassword(), newLover.getRentPrice(), new HashSet<>(roleList));
-                        userController.updateUser(newLover);
-                        listForDelete.add(newLover);
-                        System.out.println(Color.BLUE_BRIGHT + "Changed role success" + Color.RESET);
-                    }
-                    if (answer.equalsIgnoreCase("user")) {
-                        roleList.get(0).setName(RoleName.USER);
-                        User newUser = listUser.get(i);
-                        newUser = new User(newUser.getId(), newUser.getEmail(), newUser.getUserName(), newUser.getName(),
-                                newUser.getPassword(), new HashSet<>(roleList));
-                        userController.updateUser(newUser);
-                        System.out.println(Color.BLUE_BRIGHT + "Changed role success" + Color.RESET);
+            if (choice == 1) {
+                System.err.println("You can't change admin role");
+                changeRole();
+            } else {
+                for (int i = 0; i < listUser.size(); i++) {
+                    if (listUser.get(i).getId() == choice) {
+                        System.out.println("What's role you want to change for this account?");
+                        String answer = Config.validateString();
+                        Set<Role> roleSet = listUser.get(i).getRoles();
+                        List<Role> roleList = new ArrayList<>(roleSet);
+                        if (answer.equalsIgnoreCase("lover")) {
+                            roleList.get(0).setName(RoleName.LOVER);
+                            User newLover = listUser.get(i);
+                            newLover = new User(newLover.getId(), newLover.getEmail(), newLover.getUserName(),
+                                    newLover.getName(), newLover.getPassword(), newLover.getRentPrice(), new HashSet<>(roleList));
+                            userController.updateUser(newLover);
+                            listForDelete.add(newLover);
+                            System.out.println(Color.BLUE_BRIGHT + "Changed role success" + Color.RESET);
+                        }
+                        if (answer.equalsIgnoreCase("user")) {
+                            roleList.get(0).setName(RoleName.USER);
+                            User newUser = listUser.get(i);
+                            newUser = new User(newUser.getId(), newUser.getEmail(), newUser.getUserName(), newUser.getName(),
+                                    newUser.getPassword(), new HashSet<>(roleList));
+                            userController.updateUser(newUser);
+                            System.out.println(Color.BLUE_BRIGHT + "Changed role success" + Color.RESET);
+                        }
                     }
                 }
+                deleteNoMoreNeedUser(listForDelete);
             }
-            deleteNoMoreNeedUser(listForDelete);
             System.out.println("Enter 'Back' to comeback Menu");
             String backMenu = Config.scanner().nextLine();
             if (backMenu.equalsIgnoreCase("back")) {
@@ -80,7 +94,7 @@ public class AdminView {
         boolean flag = false;
         System.out.println("Input the number of account you want to activate");
         int choice = Config.validateInt();
-        System.out.println(Color.RED + "Do you want to active the account with ID " + choice + "? (Y/N)");
+        System.out.println(Color.RED + "Do you want to active the account with ID " + choice + "? (Y/N)" + Color.RESET);
         String answer = Config.validateString();
         if (answer.equalsIgnoreCase("y")) {
             for (int i = 0; i < listUser.size(); i++) {
@@ -113,8 +127,9 @@ public class AdminView {
         int choice = Config.validateInt();
         if (choice == 1) {
             System.err.println("You can't inactivate admin account");
+            InactiveAccount();
         } else {
-            System.out.println(Color.RED + "Do you want to inactivate the account with ID " + choice + "? (Y/N)");
+            System.out.println(Color.RED + "Do you want to inactivate the account with ID " + choice + "? (Y/N)" + Color.RESET);
             String answer = Config.validateString();
             if (answer.equalsIgnoreCase("y")) {
                 for (int i = 0; i < listUser.size(); i++) {

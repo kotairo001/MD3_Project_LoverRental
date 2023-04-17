@@ -22,13 +22,13 @@ public class LoverView {
         List<User> newLoginUser = new ArrayList<>();
         User oldUser = userLogin;
         System.out.println(Color.YELLOW_BOLD_BRIGHT + "Do you want to change profile? Y/N" + Color.RESET);
-        String answer = Config.scanner().nextLine();
+        String answer = Config.validateString();
         if (answer.equalsIgnoreCase("y")) {
             while (true) {
                 String email;
                 while (true) {
                     System.out.println("Input your email or type 'Skip' to skip: ");
-                    email = Config.scanner().nextLine();
+                    email = Config.validateString();
                     if (email.equalsIgnoreCase("skip")) {
                         break;
                     } else {
@@ -45,7 +45,7 @@ public class LoverView {
                 String userName;
                 while (true) {
                     System.out.println("Username or type 'Skip' to skip: ");
-                    userName = Config.scanner().nextLine();
+                    userName = Config.validateString();
                     if (userName.equalsIgnoreCase("skip")) {
                         break;
                     } else {
@@ -60,7 +60,7 @@ public class LoverView {
                 String password;
                 while (true) {
                     System.out.println("Input old password or type 'Skip' to skip: ");
-                    String oldPassword = Config.scanner().nextLine();
+                    String oldPassword = Config.validateString();
                     if (oldPassword.equalsIgnoreCase("skip")) {
                         break;
                     } else {
@@ -68,7 +68,7 @@ public class LoverView {
                             System.err.println("Your password is wrong.");
                         } else {
                             System.out.println("New password: ");
-                            password = Config.scanner().nextLine();
+                            password = Config.validateString();
                             if (!Config.validateInput(Config.VALIDATE_PASSWORD, password)) {
                                 System.err.println("Invalid Password");
                             } else if (userLogin.getPassword().equals(password)) {
@@ -106,7 +106,7 @@ public class LoverView {
         if (answer.equalsIgnoreCase("y")) {
             while (true) {
                 System.out.println("Input rental price: ");
-                rentPrice = Config.scanner().nextDouble();
+                rentPrice = Config.validateDouble();
                 if (rentPrice != userLogin.getRentPrice()) {
                     userLogin.setRentPrice(rentPrice);
                     userController.updateUser(userLogin);
@@ -150,7 +150,7 @@ public class LoverView {
                 rentalUserList.get(i).displayData();
             }
             System.out.println(Color.CYAN_BOLD_BRIGHT + "Do you wan to match? Y/N" + Color.RESET);
-            String answer = Config.scanner().nextLine();
+            String answer = Config.validateString();
             if (answer.equalsIgnoreCase("y")) {
                 System.out.println("Input the number of user you want to match:");
                 int number = Config.validateInt();

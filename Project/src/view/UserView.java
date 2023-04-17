@@ -16,6 +16,13 @@ import java.util.List;
 import java.util.Set;
 
 public class UserView {
+    public static UserView userViewInstance;
+    public static UserView getUserViewInstance(){
+        if(userViewInstance==null){
+            userViewInstance = new UserView();
+        }
+        return userViewInstance;
+    }
     UserController userController = new UserController();
     List<User> userList = userController.getUserList();
     List<User> userLogin = new Config<User>().readFromFile(Config.FILE_LOGIN_PATH);
@@ -169,6 +176,7 @@ public class UserView {
         System.out.println(Color.RED_BOLD_BRIGHT + "Do you want to log out? (Y/N)" + Color.RESET);
         String confirmMessage = Config.scanner().nextLine();
         if (confirmMessage.equalsIgnoreCase("y")) {
+//            System.out.println(userLogin);
             userLogin.remove(0);
             new Config<User>().writeToFile(Config.FILE_LOGIN_PATH, userLogin);
             new NavBar();
@@ -270,7 +278,7 @@ public class UserView {
 
     public void pickLover() {
         System.out.println("Do you want to pick a lover? Y/N");
-        String answer = Config.scanner().nextLine();
+        String answer = Config.validateString();
         boolean flag = false;
         if (answer.equalsIgnoreCase("y")) {
             System.out.println("Input the number of lover you like: ");
@@ -327,7 +335,7 @@ public class UserView {
 
     public void addComment() {
         System.out.println("Do you want to add comment? Y/N");
-        String answer = Config.scanner().nextLine();
+        String answer = Config.validateString();
         Comment comment = new Comment();
         boolean flag = false;
         if (answer.equalsIgnoreCase("y")) {
@@ -336,7 +344,7 @@ public class UserView {
             for (int i = 0; i < loverList.size(); i++) {
                 if (loverList.get(i).getId() == choice) {
                     System.out.println("Your comment: ");
-                    String strComment = Config.scanner().nextLine();
+                    String strComment = Config.validateString();
                     List<Comment> commentList = loverList.get(i).getComment();
                     comment.setComment(strComment);
                     comment.setUser(loginAccount);
@@ -366,7 +374,7 @@ public class UserView {
             if (loginAccount.getUserList() != null) {
                 while (true) {
                     System.out.println(Color.BLUE_BOLD_BRIGHT + "Have your rental been finished? Y/N" + Color.RESET);
-                    String result = Config.scanner().nextLine();
+                    String result = Config.validateString();
                     if (result.equalsIgnoreCase("y")) {
                         for (int i = 0; i < loverList.size(); i++) {
                             if (loginAccount.getUserList().get(0).getName().equalsIgnoreCase(loverList.get(i).getName())) {

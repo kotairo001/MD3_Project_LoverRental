@@ -23,7 +23,7 @@ public class ProfileView {
                 List<Role> roles = new ArrayList<>(roleSet);
                 int choice;
                 if (roles.get(0).getName() == RoleName.ADMIN) {
-                    System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧MENU FOR ADMIN✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
+                    System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧MENU FOR ADMIN✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
                     System.out.printf("|" + "  1. %-76s" + "|\n", "Show Users List");
                     System.out.printf("|" + "  2. %-76s" + "|\n", "Change Role");
                     System.out.printf("|" + "  3. %-76s" + "|\n", "Block User");
@@ -54,7 +54,7 @@ public class ProfileView {
                             break;
                     }
                 } else if (roles.get(0).getName() == RoleName.USER) {
-                    System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧MENU FOR USER✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
+                    System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧MENU FOR USER✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
                     System.out.printf("|" + "  1. %-76s" + "|\n", "Show Profile");
                     System.out.printf("|" + "  2. %-76s" + "|\n", "Change Profile");
                     System.out.printf("|" + "  3. %-76s" + "|\n", "Show Lovers List");
@@ -81,11 +81,11 @@ public class ProfileView {
                             new UserView().finishRental();
                             break;
                         case 6:
-                            new UserView().logOut();
+                            new UserView().logOut();;
                             break;
                     }
                 } else {
-                    System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧MENU FOR LOVER✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
+                    System.out.println(Config.WHITE_BRIGHT + "✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧MENU FOR LOVER✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧");
                     System.out.printf("|" + "  1. %-76s" + "|\n", "Show Profile");
                     System.out.printf("|" + "  2. %-76s" + "|\n", "Change Profile");
                     System.out.printf("|" + "  3. %-76s" + "|\n", "Change Rental Price");

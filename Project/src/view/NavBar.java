@@ -26,7 +26,7 @@ public class NavBar {
             System.out.printf("|" + "  3. %-76s" + "|\n", "Exit");
             System.out.println("✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧✧" + Color.RESET);
             System.out.println("Input your choice");
-            int choice = Config.scanner().nextInt();
+            int choice = Config.validateInt();
             switch (choice) {
                 case 1:
                     new UserView().register();
